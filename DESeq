@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Open R studio on ThinLinc
+# Using Console, load tidyverse
+library(“tidyverse”)
+
+# In console
+library ("DESeq2")
+
+countdata <- read.table("/N/slate/emierdma/GSF3587/results/counts/counts.tsv", header=TRUE,row.names = 1)
+
+countdata <- countdata[,6:ncol(countdata)]
+
+colnames(countdata)
+
+# Change column names
+
+colnames(countdata) <-gsub("..results.aligned._Aligned.sortedByCoord.out.bam","N2_ctrl_rep2",colnames(countdata))
+colnames(countdata) <- gsub("..results.aligned.GSF3587.","",colnames(countdata))
+colnames(countdata) <- gsub("_Aligned.sortedByCoord.out.bam","",colnames(countdata))
+
+colnames(countdata)
+
+# once column names are as you like:
+
+countdata <- as.matrix(countdata)
+
+countdata <- countdata[,c("adr2_ctrl_rep1","adr2_ctrl_rep2","adr2_ctrl_rep3","N2_ctrl_rep1","N2_ctrl_rep2","N2_ctrl_rep3")]
+(condition <- factor(c(rep("b",3),rep("a",3))))
+(coldata <- data.frame(row.names=colnames(countdata),condition))
+
+dds <- DESeqDataSetFromMatrix(countData = countdata,colData = coldata, design=~condition)
+
+keep = rowSums(counts(dds)) >= 1
+
+dds <- dds[keep,]
+
+dds <- DESeq(dds)
+
+res <- results(dds)
+
+resdata <- merge(as.data.frame(res),as.data.frame(counts(dds,normalized=TRUE)),by="row.names",sort=FALSE)
+
+names(resdata)[1] <- "Gene"
+
+write.csv(resdata,file="/N/slate/emierdma/GSF3587/results/N2_ctrl_vs_adr2_ctrl_deseq.csv")
+
+# file can now be found in your results directory
+
+# move file to desktop
+# in terminal (outside thinlinc)
+
+scp emierdma@carbonate.uits.iu.edu:/N/slate/emierdma/GSF3587/results/N2_ctrl_vs_adr2_ctrl_deseq.csv ~/Desktop
+
+# open file in Excel and analyze
