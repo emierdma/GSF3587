@@ -1,0 +1,17 @@
+#!/bin/bash
+#in GSF3587 directory
+
+mkdir sailor
+
+# In aligned directory
+# create merged bam file
+
+module load samtools 
+
+samtools merge -@ 8 ../../sailor/GSF3587-N2_ctrl.merged.bam GSF3587-N2_ctrl_rep1_Aligned.sortedByCoord.out.bam GSF3587-N2_ctrl_rep2_Aligned.sortedByCoord.out.bam GSF3587-N2_ctrl_rep3_Aligned.sortedByCoord.out.bam
+samtools merge -@ 8 ../../sailor/GSF3587-N2_182.merged.bam GSF3587-N2_182_rep1_Aligned.sortedByCoord.out.bam GSF3587-N2_182_rep2_Aligned.sortedByCoord.out.bam GSF3587-N2_182_rep3_Aligned.sortedByCoord.out.bam
+
+
+# download snps bedfile (Hundley Lab onedrive > Hundley Lab protocols > Hundley Lab Bioinformatics > Bioinformatics notes > files for Sailor)
+# copy bedfile to your carbonate directory
+scp c.elegans.WS275.snps.nostrand.sorted.bed dyupant@carbonate.uits.iu.edu:/N/slate/dyupant/GSF2848
