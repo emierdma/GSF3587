@@ -1,11 +1,9 @@
 #!/bin/bash
 #in GSF3587 directory
-
 mkdir sailor
 
 # In aligned directory
 # create merged bam file
-
 module load samtools 
 
 samtools merge -@ 8 ../../sailor/GSF3587-N2_ctrl.merged.bam GSF3587-N2_ctrl_rep1_Aligned.sortedByCoord.out.bam GSF3587-N2_ctrl_rep2_Aligned.sortedByCoord.out.bam GSF3587-N2_ctrl_rep3_Aligned.sortedByCoord.out.bam
@@ -34,23 +32,18 @@ scp c.elegans.WS275.snps.nostrand.sorted.bed /N/slate/emierdma/GSF3587/sailor
 scp GSF3587-N2_ctrl.json /N/slate/emierdma/GSF3587/sailor
 
 # copy workflow_sailor scripts and snakefile from HundleyLab project space FLARE directory
-
 scp -r workflow_sailor /N/slate/emierdma/GSF3587/sailor
 
 # on carbonate
 # install snakemake
-
 conda install -c bioconda -c conda-forge snakemake
 
 # in GSF3587/results
-
 mkdir flare_results
 
 #in sailor directory
 # load singularity every single time you run SAILOR
-
 module load singularity
 
 # use the following command to run SAILOR. under "--singularity-args --'bind' you will have to give access to every single directory that has relevant files
-
 snakemake --snakefile /N/slate/emierdma/GSF3587/sailor/workflow_sailor/Snakefile --configfile /N/slate/emierdma/GSF3587/sailor/GSF3587-N2_ctrl.json --use-singularity --singularity-args '--bind /N/slate/emierdma/GSF3587 --bind /N/slate/emierdma/GSF3587/genome --bind /N/slate/emierdma/GSF3587/sailor/workflow_sailor/scripts --bind /N/slate/emierdma/GSF3587/sailor/workflow_sailor --bind /N/slate/emierdma/GSF3587/results/flare_results' -j1
