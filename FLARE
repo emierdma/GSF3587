@@ -34,6 +34,9 @@ scp GSF3587-N2_ctrl.json /N/slate/emierdma/GSF3587/sailor
 # copy workflow_sailor scripts and snakefile from HundleyLab project space FLARE directory
 scp -r workflow_sailor /N/slate/emierdma/GSF3587/sailor
 
+#make all workflow_sailor scrips executable
+chmod +x filename
+
 # on carbonate
 # install snakemake
 conda install -c bioconda -c conda-forge snakemake
