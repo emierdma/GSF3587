@@ -1,6 +1,6 @@
 #!/bin/bash
 #in GSF3587 directory
-mkdir sailor
+mkdir flare
 
 #In aligned directory
 #create merged bam file
@@ -11,19 +11,19 @@ samtools merge -@ 8 ../../sailor/GSF3587-N2_182.merged.bam GSF3587-N2_182_rep1_A
 samtools merge -@ 8 ../../sailor/GSF3587-adr2_ctrl.merged.bam GSF3587-adr2_ctrl_rep1_Aligned.sortedByCoord.out.bam GSF3587-adr2_ctrl_rep2_Aligned.sortedByCoord.out.bam GSF3587-adr2_ctrl_rep3_Aligned.sortedByCoord.out.bam
 samtools merge -@ 8 ../../sailor/GSF3587-adr2_182.merged.bam GSF3587-adr2_182_rep1_Aligned.sortedByCoord.out.bam GSF3587-adr2_182_rep2_Aligned.sortedByCoord.out.bam GSF3587-adr2_182_rep3_Aligned.sortedByCoord.out.bam
 
-#copy bedfile to sailor directory
+#copy bedfile to flare directory
 #in HundleyLab project space FLARE directory
 scp c.elegans.WS275.snps.nostrand.sorted.bed /N/slate/emierdma/GSF3587/sailor
 
 #create a .json file (on text editor) with the following contents (I saved it as GSF3587-N2_ctrl.json):
 {
-  "samples_path": "/N/slate/emierdma/GSF3587/sailor"
+  "samples_path": "/N/slate/emierdma/GSF3587/flare"
   "samples": [
     "GSF3587-N2_ctrl.merged.bam"             
   ],
   "reverse_stranded": true,
   "reference_fasta": "/N/slate/emierdma/GSF3587/genome/assembly.fasta",
-  "known_snps": "/N/slate/emierdma/GSF3587/c.elegans.WS275.snps.nostrand.sorted.bed",
+  "known_snps": "/N/slate/emierdma/GSF3587/flare/c.elegans.WS275.snps.nostrand.sorted.bed",
   "edit_type": "AG"
   "output_dir": "/N/slate/emierdma/GSF3587/results/flare_results"
 }
@@ -50,4 +50,4 @@ mkdir flare_results
 module load singularity
 
 #use the following command to run SAILOR. under "--singularity-args --'bind' you will have to give access to every single directory that has relevant files
-snakemake --snakefile /N/slate/emierdma/GSF3587/sailor/workflow_sailor/Snakefile --configfile /N/slate/emierdma/GSF3587/sailor/GSF3587-N2_ctrl.json --use-singularity --singularity-args '--bind /N/slate/emierdma/GSF3587 --bind /N/slate/emierdma/GSF3587/genome --bind /N/slate/emierdma/GSF3587/sailor/workflow_sailor/scripts --bind /N/slate/emierdma/GSF3587/sailor/workflow_sailor --bind /N/slate/emierdma/GSF3587/results/flare_results' -j1
+snakemake --snakefile /N/slate/emierdma/GSF3587/flare/workflow_sailor/Snakefile --configfile /N/slate/emierdma/GSF3587/flare/GSF3587-N2_ctrl.json --use-singularity --singularity-args '--bind /N/slate/emierdma/GSF3587 --bind /N/slate/emierdma/GSF3587/genome --bind /N/slate/emierdma/GSF3587/flare/workflow_sailor/scripts --bind /N/slate/emierdma/GSF3587/flare/workflow_sailor --bind /N/slate/emierdma/GSF3587/results/flare_results' -j1
