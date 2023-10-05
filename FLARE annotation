@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# copy .bed files from flare results (directory 7) to flare directory
+
+scp *.bed /N/slate/emierdma/GSF3587/flare
+
+# copy WS275 files to sailor directory
+
+scp c.elegans.WS275.annotation.final.bed /N/slate/emierdma/GSF3587/flare
+
+scp c_elegans.PRJNA13758.WS275.canonical_geneset.gtf /N/slate/emierdma/GSF3587/flare
+
+scp annotator.sailor.py emierdma@carbonate.uits.iu.edu:/N/slate/emierdma/GSF3587/flare
+
+# in slate sailor directory, install pybedtools (only need to do once) (had to have python 3.6.8 for this to work)
+
+conda install -c bioconda pybedtools
+
+y
+
+# run annotation
+
+python3 annotator.sailor.py --gtf c_elegans.PRJNA13758.WS275.canonical_geneset.gtf --fwd GSF3587-N2_ctrl.merged.bam.fwd.readfiltered.formatted.varfiltered.snpfiltered.ranked.bed  --rev GSF3587-N2_ctrl.merged.bam.rev.readfiltered.formatted.varfiltered.snpfiltered.ranked.bed  --wb c.elegans.WS275.annotation.final.bed --o /N/slate/emierdma/GSF3587/results/flare_results/N2_ctrl.annotated.sites.csv
