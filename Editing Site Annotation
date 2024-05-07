@@ -4,7 +4,7 @@
 
 scp *.bed /N/slate/emierdma/GSF3587/flare
 
-# copy WS275 files to sailor directory
+# copy WS275 files to flare directory
 
 scp c.elegans.WS275.annotation.final.bed /N/slate/emierdma/GSF3587/flare
 
@@ -12,7 +12,7 @@ scp c_elegans.PRJNA13758.WS275.canonical_geneset.gtf /N/slate/emierdma/GSF3587/f
 
 scp annotator.sailor.py emierdma@carbonate.uits.iu.edu:/N/slate/emierdma/GSF3587/flare
 
-# in slate sailor directory, install pybedtools (only need to do once) (had to have python 3.6.8 for this to work)
+# in slate flare directory, install pybedtools (only need to do once) (had to have python 3.6.8 for this to work)
 
 conda install -c bioconda pybedtools
 
